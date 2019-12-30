@@ -4,8 +4,7 @@ import { ClientSocket, useSocket } from 'use-socketio'
 
 const App = () => {
   const [count, setCount] = useState(0)
-
-  const socket = useSocket("counter", newCount => {
+  useSocket("counter", newCount => {
     setCount(newCount.count)
   })
   return (

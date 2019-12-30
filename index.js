@@ -1,5 +1,4 @@
 const express = require('express')
-const html = require('html-template-tag')
 const Bundler = require('parcel-bundler')
 const path = require('path')
 const socketIO = require('socket.io')
@@ -24,8 +23,11 @@ const counter = {
 io.on('connection', (socket) => {
   counter.count++
   console.log('a client connected, counter: ', counter.count)
+  socket.broadcast.emit('counter', counter)
   socket.emit('counter', counter)
   socket.on('disconnect', () => {
     counter.count--
+    socket.broadcast.emit('counter', counter)
+    socket.emit('counter', counter)
   })
 })
