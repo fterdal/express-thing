@@ -20,14 +20,13 @@ const counter = {
   count: 0
 }
 
+// Super Helpful: https://stackoverflow.com/questions/32674391/io-emit-vs-socket-emit
 io.on('connection', (socket) => {
   counter.count++
   console.log('a client connected, counter: ', counter.count)
-  socket.broadcast.emit('counter', counter)
-  socket.emit('counter', counter)
+  io.emit('counter', counter)
   socket.on('disconnect', () => {
     counter.count--
-    socket.broadcast.emit('counter', counter)
-    socket.emit('counter', counter)
+    io.emit('counter', counter)
   })
 })
