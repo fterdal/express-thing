@@ -1,28 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
-import io from 'socket.io-client'
-
-const socket = io(window.location.origin)
-
-socket.on('connect', () => {
-  console.log('Connected!')
-  // console.log(socket)
-})
-socket.on('counter', (data) => {
-  console.log('received counter', data)
-})
+import { ClientSocket, useSocket } from 'use-socketio'
 
 const App = () => {
   const [count, setCount] = useState(0)
-  const receiveCounter = () => {
-    socket.on('counter', (data) => {
-      setCount(data.count)
-    })
-  }
-  useEffect(() => {
-    receiveCounter()
-  }, [count])
+
+  const socket = useSocket("counter", newCount => {
+    setCount(newCount.count)
+  })
   return (
     <div className="app">
       <h1>Hello World</h1>
@@ -32,6 +17,8 @@ const App = () => {
 }
 
 ReactDOM.render(
-  <App />,
+  <ClientSocket url={window.location.origin}>
+    <App />
+  </ClientSocket>,
   document.getElementById('app')
 )
