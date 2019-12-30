@@ -17,6 +17,15 @@ const server = app.listen(PORT, () => {
 
 const io = socketIO(server)
 
+const counter = {
+  count: 0
+}
+
 io.on('connection', (socket) => {
-  console.log('a client connected')
+  counter.count++
+  console.log('a client connected, counter: ', counter.count)
+  socket.emit('counter', counter)
+  socket.on('disconnect', () => {
+    counter.count--
+  })
 })
