@@ -17,16 +17,25 @@ const server = app.listen(PORT, () => {
 const io = socketIO(server)
 
 const counter = {
-  count: 0
+  count: 0,
+  cookies: 0
 }
 
 // Super Helpful: https://stackoverflow.com/questions/32674391/io-emit-vs-socket-emit
 io.on('connection', (socket) => {
   counter.count++
-  console.log('a client connected, counter: ', counter.count)
+  console.log('a client connected, counter: ', counter)
   io.emit('counter', counter)
   socket.on('disconnect', () => {
     counter.count--
+    io.emit('counter', counter)
+  })
+  socket.on('add-cookie', () => {
+    counter.cookies++
+    io.emit('counter', counter)
+  })
+  socket.on('subtract-cookie', () => {
+    counter.cookies--
     io.emit('counter', counter)
   })
 })
