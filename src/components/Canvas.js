@@ -2,6 +2,9 @@ import React, { useRef } from "react"
 
 const Canvas = () => {
   const canvasRef = useRef(null)
+  // const socket = useSocket("draw", newDraw => {
+  //   // TODO: Draw on canvas whenever a "draw" event is received
+  // })
   const handleCanvasClick = e => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
@@ -13,6 +16,7 @@ const Canvas = () => {
       20
     )
     ctx.stroke()
+    // TODO: Emit a "draw" event
   }
 
   return (
