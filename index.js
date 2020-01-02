@@ -21,9 +21,12 @@ const counter = {
   cookies: 0
 }
 
+let draws = []
+
 // Super Helpful: https://stackoverflow.com/questions/32674391/io-emit-vs-socket-emit
 io.on('connection', (socket) => {
   counter.count++
+  socket.emit('batch-draws', draws)
   io.emit('counter', counter)
   socket.on('disconnect', () => {
     counter.count--
@@ -37,9 +40,8 @@ io.on('connection', (socket) => {
     counter.cookies--
     io.emit('counter', counter)
   })
-  // TODO: Store draw events in a data structure. When new client connects,
-  // draw all existing squares.
   socket.on('draw', drawEvent => {
+    draws.push(drawEvent)
     socket.broadcast.emit('draw', drawEvent)
   })
 })

@@ -10,6 +10,9 @@ const Canvas = () => {
     ctx.rect(x, y, 20, 20)
     ctx.stroke()
   }
+  useSocket("batch-draws", batchDraws => {
+    batchDraws.forEach(draw => drawSquare(draw.x, draw.y))
+  })
   const socket = useSocket("draw", newDraw => {
     drawSquare(newDraw.x, newDraw.y)
   })
