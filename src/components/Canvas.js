@@ -18,16 +18,16 @@ const Canvas = () => {
     ctx.stroke()
     // TODO: Emit a "draw" event
   }
-
   return (
-    <canvas
-      style={{ margin: "30px" }}
-      className="draw-stuff"
-      ref={canvasRef}
-      width="300"
-      height="300"
-      onClick={handleCanvasClick}
-    />
+    <div className="canvas-container">
+      <canvas
+        className="draw-stuff"
+        ref={canvasRef}
+        width="300"
+        height="300"
+        onClick={handleCanvasClick}
+      />
+    </div>
   )
 }
 

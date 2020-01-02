@@ -12,6 +12,12 @@ body {
   align-items: center;
 }
 
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .draw-stuff {
   border: 1px solid black;
 }
