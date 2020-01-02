@@ -1,22 +1,24 @@
 import React, { useRef } from "react"
+import { useSocket } from "use-socketio"
 
 const Canvas = () => {
   const canvasRef = useRef(null)
-  // const socket = useSocket("draw", newDraw => {
-  //   // TODO: Draw on canvas whenever a "draw" event is received
-  // })
-  const handleCanvasClick = e => {
+  const drawSquare = (x, y) => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
     ctx.beginPath()
-    ctx.rect(
-      e.clientX + pageXOffset - canvas.offsetLeft - 10,
-      e.clientY + pageYOffset - canvas.offsetTop - 10,
-      20,
-      20
-    )
+    ctx.rect(x, y, 20, 20)
     ctx.stroke()
-    // TODO: Emit a "draw" event
+  }
+  const socket = useSocket("draw", newDraw => {
+    drawSquare(newDraw.x, newDraw.y)
+  })
+  const handleCanvasClick = e => {
+    const canvas = canvasRef.current
+    const x = e.clientX + pageXOffset - canvas.offsetLeft - 10
+    const y = e.clientY + pageYOffset - canvas.offsetTop - 10
+    drawSquare(x, y)
+    socket.emit("draw", { x, y })
   }
   return (
     <div className="canvas-container">

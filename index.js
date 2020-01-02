@@ -24,7 +24,6 @@ const counter = {
 // Super Helpful: https://stackoverflow.com/questions/32674391/io-emit-vs-socket-emit
 io.on('connection', (socket) => {
   counter.count++
-  console.log('a client connected, counter: ', counter)
   io.emit('counter', counter)
   socket.on('disconnect', () => {
     counter.count--
@@ -37,5 +36,10 @@ io.on('connection', (socket) => {
   socket.on('subtract-cookie', () => {
     counter.cookies--
     io.emit('counter', counter)
+  })
+  // TODO: Store draw events in a data structure. When new client connects,
+  // draw all existing squares.
+  socket.on('draw', drawEvent => {
+    socket.broadcast.emit('draw', drawEvent)
   })
 })
