@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { useSocket } from "use-socketio"
 
 const Canvas = () => {
+  console.log()
   const canvasRef = useRef(null)
   const drawSquare = (x, y) => {
     const canvas = canvasRef.current
