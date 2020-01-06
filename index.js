@@ -5,6 +5,16 @@ const socketIO = require("socket.io")
 
 const app = express()
 
+// https://b8671664.ngrok.io/hello?name=ryan%27);%20console.log(%27pwnd
+
+app.get("/hello", (req, res) => {
+  const name = req.query.name
+  const returnVal = eval(
+    `function hello(hacker) { console.log('this is bad ' + hacker + ' stole all your stuff'); return 'hello' }; hello('${name}'); `
+  )
+  res.send(returnVal)
+})
+
 const entry = path.join(__dirname, "src", "index.html")
 const bundler = new Bundler(entry)
 app.use(bundler.middleware())
